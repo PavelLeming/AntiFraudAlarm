@@ -9,41 +9,26 @@ public class Alarm : MonoBehaviour
     private float _speed = 0.1f;
     private bool _isTurnOn;
 
-    public void TurnAlarm(bool isTurnOn)
+    public void TurnAlarm(int target)
     {
-        _isTurnOn = isTurnOn;
-
         if (_currentCoroutine != null)
         {
             StopCoroutine(_currentCoroutine);
         }
 
-        _currentCoroutine = ChangeVolume();
+        _currentCoroutine = ChangeVolume(target);
         StartCoroutine(_currentCoroutine);
     }
-    private IEnumerator ChangeVolume()
+    private IEnumerator ChangeVolume(int target)
     {
         var wait = new WaitForEndOfFrame();
 
-        if (_isTurnOn)
-        {
-            _alarm.Play();
+        _alarm.Play();
 
-            while (_alarm.volume < 1)
-            {
-                _alarm.volume = Mathf.MoveTowards(_alarm.volume, 1, _speed * Time.deltaTime);
-                yield return wait;
-            }
-        }
-        else
+        while (_alarm.volume < 1)
         {
-            while (_alarm.volume > 0)
-            {
-                _alarm.volume = Mathf.MoveTowards(_alarm.volume, 0, _speed * Time.deltaTime);
-                yield return wait;
-            }
-
-            _alarm.Stop();
+            _alarm.volume = Mathf.MoveTowards(_alarm.volume, target, _speed * Time.deltaTime);
+            yield return wait;
         }
     }
 }

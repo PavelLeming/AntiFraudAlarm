@@ -15,8 +15,8 @@ public class House : MonoBehaviour
         _trigger.IsEnter -= WorkWithAlarm;
     }
 
-    private void WorkWithAlarm(bool isAlarmOn)
+    private void WorkWithAlarm(int target)
     {
-        _alarm.TurnAlarm(isAlarmOn);
+        _alarm.TurnAlarm(target);
     }
 }

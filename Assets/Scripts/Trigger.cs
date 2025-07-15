@@ -5,17 +5,17 @@ using UnityEngine.Events;
 
 public class Trigger : MonoBehaviour
 {
-    public event UnityAction<bool> IsEnter;
+    public event UnityAction<int> IsEnter;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent<Mover>(out _))
-            IsEnter?.Invoke(true);
+            IsEnter?.Invoke(1);
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.TryGetComponent<Mover>(out _))
-            IsEnter?.Invoke(false);
+            IsEnter?.Invoke(0);
     }
 }
