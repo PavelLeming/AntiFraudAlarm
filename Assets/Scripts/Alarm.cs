@@ -5,32 +5,48 @@ using UnityEngine;
 public class Alarm : MonoBehaviour
 {
     [SerializeField] AudioSource _alarm;
+    private IEnumerator _currentCoroutine;
     private float _speed = 0.1f;
-    private bool _isPlaying = false;
 
-    private void OnTriggerEnter(Collider other)
+    public void TurnOnAlarm()
     {
-        Mover componenet;
-        if (other.gameObject.TryGetComponent<Mover>(out componenet))
+        if (_currentCoroutine != null)
         {
-            _isPlaying = true;
+            StopCoroutine(_currentCoroutine);
         }
+        _currentCoroutine = IncreaseVolume();
+        StartCoroutine(_currentCoroutine);
     }
 
-    private void OnTriggerExit(Collider other)
+    public void TurnOffAlarm()
     {
-        Mover componenet;
-        if (other.gameObject.TryGetComponent<Mover>(out componenet))
+        if (_currentCoroutine != null)
         {
-            _isPlaying = false;
+            StopCoroutine(_currentCoroutine);
         }
+        _currentCoroutine = DecreaseVolume();
+        StartCoroutine(_currentCoroutine);
     }
 
-    private void Update()
+    private IEnumerator IncreaseVolume()
     {
-        if (_isPlaying)
+        _alarm.Play();
+
+        while (_alarm.volume < 1)
+        {
             _alarm.volume = Mathf.MoveTowards(_alarm.volume, 1, _speed * Time.deltaTime);
-        else
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    private IEnumerator DecreaseVolume()
+    {
+        while (_alarm.volume > 0)
+        {
             _alarm.volume = Mathf.MoveTowards(_alarm.volume, 0, _speed * Time.deltaTime);
+            yield return new WaitForEndOfFrame();
+        }
+
+        _alarm.Stop();
     }
 }
