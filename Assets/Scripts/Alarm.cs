@@ -19,6 +19,7 @@ public class Alarm : MonoBehaviour
         {
             StopCoroutine(_currentCoroutine);
         }
+
         if (isEnter)
         {
             _targetVolume = MaxVolume;
@@ -27,6 +28,7 @@ public class Alarm : MonoBehaviour
         {
             _targetVolume = MinVolume;
         }
+
         _currentCoroutine = StartCoroutine(ChangeVolume(_targetVolume));
     }
     private IEnumerator ChangeVolume(float target)
