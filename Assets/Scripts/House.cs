@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class House : MonoBehaviour
@@ -19,13 +17,6 @@ public class House : MonoBehaviour
 
     private void WorkWithAlarm(bool isAlarmOn)
     {
-        if (isAlarmOn)
-        {
-            _alarm.TurnOnAlarm();
-        }
-        else
-        {
-            _alarm.TurnOffAlarm();
-        }
+        _alarm.TurnAlarm(isAlarmOn);
     }
 }

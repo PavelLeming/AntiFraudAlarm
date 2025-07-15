@@ -7,46 +7,43 @@ public class Alarm : MonoBehaviour
     [SerializeField] AudioSource _alarm;
     private IEnumerator _currentCoroutine;
     private float _speed = 0.1f;
+    private bool _isTurnOn;
 
-    public void TurnOnAlarm()
+    public void TurnAlarm(bool isTurnOn)
     {
+        _isTurnOn = isTurnOn;
+
         if (_currentCoroutine != null)
         {
             StopCoroutine(_currentCoroutine);
         }
-        _currentCoroutine = IncreaseVolume();
+
+        _currentCoroutine = ChangeVolume();
         StartCoroutine(_currentCoroutine);
     }
-
-    public void TurnOffAlarm()
+    private IEnumerator ChangeVolume()
     {
-        if (_currentCoroutine != null)
+        var wait = new WaitForEndOfFrame();
+
+        if (_isTurnOn)
         {
-            StopCoroutine(_currentCoroutine);
+            _alarm.Play();
+
+            while (_alarm.volume < 1)
+            {
+                _alarm.volume = Mathf.MoveTowards(_alarm.volume, 1, _speed * Time.deltaTime);
+                yield return wait;
+            }
         }
-        _currentCoroutine = DecreaseVolume();
-        StartCoroutine(_currentCoroutine);
-    }
-
-    private IEnumerator IncreaseVolume()
-    {
-        _alarm.Play();
-
-        while (_alarm.volume < 1)
+        else
         {
-            _alarm.volume = Mathf.MoveTowards(_alarm.volume, 1, _speed * Time.deltaTime);
-            yield return new WaitForEndOfFrame();
-        }
-    }
+            while (_alarm.volume > 0)
+            {
+                _alarm.volume = Mathf.MoveTowards(_alarm.volume, 0, _speed * Time.deltaTime);
+                yield return wait;
+            }
 
-    private IEnumerator DecreaseVolume()
-    {
-        while (_alarm.volume > 0)
-        {
-            _alarm.volume = Mathf.MoveTowards(_alarm.volume, 0, _speed * Time.deltaTime);
-            yield return new WaitForEndOfFrame();
+            _alarm.Stop();
         }
-
-        _alarm.Stop();
     }
 }
