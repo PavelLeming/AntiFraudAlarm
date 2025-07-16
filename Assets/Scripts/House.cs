@@ -17,6 +17,13 @@ public class House : MonoBehaviour
 
     private void WorkWithAlarm(bool isEnter)
     {
-        _alarm.TurnAlarm(isEnter);
+        if (isEnter)
+        {
+            _alarm.TurnOnAlarm();
+        }
+        else
+        {
+            _alarm.TurnOffAlarm();
+        }
     }
 }

@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Alarm : MonoBehaviour
@@ -11,26 +9,27 @@ public class Alarm : MonoBehaviour
     [SerializeField] AudioSource _alarm;
     private Coroutine _currentCoroutine;
     private float _speed = 0.1f;
-    private float _targetVolume;
 
-    public void TurnAlarm(bool isEnter)
+    public void TurnOnAlarm()
     {
         if (_currentCoroutine != null)
         {
             StopCoroutine(_currentCoroutine);
         }
 
-        if (isEnter)
+        _currentCoroutine = StartCoroutine(ChangeVolume(MaxVolume));
+    }
+
+    public void TurnOffAlarm()
+    {
+        if (_currentCoroutine != null)
         {
-            _targetVolume = MaxVolume;
-        }
-        else
-        {
-            _targetVolume = MinVolume;
+            StopCoroutine(_currentCoroutine);
         }
 
-        _currentCoroutine = StartCoroutine(ChangeVolume(_targetVolume));
+        _currentCoroutine = StartCoroutine(ChangeVolume(MinVolume));
     }
+
     private IEnumerator ChangeVolume(float target)
     {
         var wait = new WaitForEndOfFrame();
