@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Mover : MonoBehaviour
 {
-    private const string _verticalAxis = "Vertical";
-    private const string _horizontalAxis = "Horizontal";
+    private const string VerticalAxis = "Vertical";
+    private const string HorizontalAxis = "Horizontal";
 
     private float _moveSpeed = 5;
     private float _rotationSpeed = 20f;
@@ -16,13 +16,13 @@ public class Mover : MonoBehaviour
 
     private void Move()
     {
-        float direction = Input.GetAxis(_verticalAxis);
+        float direction = Input.GetAxis(VerticalAxis);
         transform.Translate(_moveSpeed * direction * Time.deltaTime * Vector3.forward);
     }
 
     private void Rotate()
     {
-        float rotation = Input.GetAxis(_horizontalAxis);
+        float rotation = Input.GetAxis(HorizontalAxis);
         transform.Rotate(_rotationSpeed * rotation * Time.deltaTime * Vector3.up);
     }
 }

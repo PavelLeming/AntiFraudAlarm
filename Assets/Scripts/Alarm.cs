@@ -9,19 +9,20 @@ public class Alarm : MonoBehaviour
     [SerializeField] private AudioSource _alarm;
     private Coroutine _currentCoroutine;
     private float _speed = 0.1f;
+    private float _offset = 0.001f;
 
-    public void TurnOnAlarm()
+    public void TurnOn()
     {
         if (_currentCoroutine != null)
         {
-            _alarm.Play();
             StopCoroutine(_currentCoroutine);
         }
 
+        _alarm.Play();
         _currentCoroutine = StartCoroutine(ChangeVolume(MaxVolume));
     }
 
-    public void TurnOffAlarm()
+    public void TurnOff()
     {
         if (_currentCoroutine != null)
         {
@@ -41,7 +42,7 @@ public class Alarm : MonoBehaviour
             yield return wait;
         }
 
-        if (target == 0 && _alarm.volume == 0)
+        if (target < _offset)
         {
             _alarm.Stop();
         }

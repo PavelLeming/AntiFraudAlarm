@@ -7,23 +7,23 @@ public class House : MonoBehaviour
 
     private void OnEnable()
     {
-        _trigger.IsEnter += TurnOn;
-        _trigger.IsExit += TurnOff;
+        _trigger.IsFraudEntered += TurnOnAlarm;
+        _trigger.IsFraudExited += TurnOffAlarm;
     }
 
     private void OnDisable()
     {
-        _trigger.IsEnter -= TurnOn;
-        _trigger.IsExit -= TurnOff;
+        _trigger.IsFraudEntered -= TurnOnAlarm;
+        _trigger.IsFraudExited -= TurnOffAlarm;
     }
 
-    private void TurnOn()
+    private void TurnOnAlarm()
     {
-        _alarm.TurnOnAlarm();
+        _alarm.TurnOn();
     }
 
-    private void TurnOff()
+    private void TurnOffAlarm()
     {
-        _alarm.TurnOffAlarm();
+        _alarm.TurnOff();
     }
 }
