@@ -2,28 +2,28 @@ using UnityEngine;
 
 public class House : MonoBehaviour
 {
-    [SerializeField] Trigger _trigger;
-    [SerializeField] Alarm _alarm;
+    [SerializeField] private Trigger _trigger;
+    [SerializeField] private Alarm _alarm;
 
     private void OnEnable()
     {
-        _trigger.IsEnter += WorkWithAlarm;
+        _trigger.IsEnter += TurnOn;
+        _trigger.IsExit += TurnOff;
     }
 
     private void OnDisable()
     {
-        _trigger.IsEnter -= WorkWithAlarm;
+        _trigger.IsEnter -= TurnOn;
+        _trigger.IsExit -= TurnOff;
     }
 
-    private void WorkWithAlarm(bool isEnter)
+    private void TurnOn()
     {
-        if (isEnter)
-        {
-            _alarm.TurnOnAlarm();
-        }
-        else
-        {
-            _alarm.TurnOffAlarm();
-        }
+        _alarm.TurnOnAlarm();
+    }
+
+    private void TurnOff()
+    {
+        _alarm.TurnOffAlarm();
     }
 }

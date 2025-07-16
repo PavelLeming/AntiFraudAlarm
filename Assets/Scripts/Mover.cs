@@ -2,10 +2,11 @@ using UnityEngine;
 
 public class Mover : MonoBehaviour
 {
+    private const string _verticalAxis = "Vertical";
+    private const string _horizontalAxis = "Horizontal";
+
     private float _moveSpeed = 5;
     private float _rotationSpeed = 20f;
-    private string _verticalAxis = "Vertical";
-    private string _horizontalAxis = "Horizontal";
 
     private void Update()
     {

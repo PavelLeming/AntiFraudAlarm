@@ -3,17 +3,18 @@ using UnityEngine;
 
 public class Trigger : MonoBehaviour
 {
-    public event Action<bool> IsEnter;
+    public event Action IsEnter;
+    public event Action IsExit;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent<Mover>(out _))
-            IsEnter?.Invoke(true);
+            IsEnter?.Invoke();
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.TryGetComponent<Mover>(out _))
-            IsEnter?.Invoke(false);
+            IsExit?.Invoke();
     }
 }

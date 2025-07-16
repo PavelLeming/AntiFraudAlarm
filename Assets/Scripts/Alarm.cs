@@ -6,7 +6,7 @@ public class Alarm : MonoBehaviour
     private const float MaxVolume = 1f;
     private const float MinVolume = 0f;
 
-    [SerializeField] AudioSource _alarm;
+    [SerializeField] private AudioSource _alarm;
     private Coroutine _currentCoroutine;
     private float _speed = 0.1f;
 
@@ -14,6 +14,7 @@ public class Alarm : MonoBehaviour
     {
         if (_currentCoroutine != null)
         {
+            _alarm.Play();
             StopCoroutine(_currentCoroutine);
         }
 
@@ -34,12 +35,15 @@ public class Alarm : MonoBehaviour
     {
         var wait = new WaitForEndOfFrame();
 
-        _alarm.Play();
-
         while (_alarm.volume != target)
         {
             _alarm.volume = Mathf.MoveTowards(_alarm.volume, target, _speed * Time.deltaTime);
             yield return wait;
+        }
+
+        if (target == 0 && _alarm.volume == 0)
+        {
+            _alarm.Stop();
         }
     }
 }
